@@ -4,6 +4,7 @@ const fs = require('fs');
 const YAML = require('yaml');
 const path = require('path');
 const Papa = require('papaparse');
+const { spawn } = require('child_process'); // ★ サーバー起動のために追加
 
 // 引数を処理
 const args = process.argv.slice(2);
@@ -12,6 +13,7 @@ const csvFilePath = args[1];
 
 // YAML設定の処理を関数化
 function processYamlConfig() {
+  // (この関数の中身は変更ありません)
   const srcConfigFilePath = path.join(process.cwd(), '/config.yml');
   const distConfigFilePath = path.join(process.cwd(), '/src/config.json');
 
@@ -58,7 +60,20 @@ if (command === 'start') {
       fs.writeFileSync(distJsonPath, JSON.stringify(results.data, null, 2));
       console.log(`✅ CSVをJSONに変換し、${distJsonPath} に保存しました。`);
       processYamlConfig(); // YAMLの処理も実行
-      process.exit(0);
+
+      // ★ここから追加：React開発サーバーを起動する
+      console.log('🚀 React開発サーバーを起動します...');
+      const server = spawn('npm', ['start'], {
+        stdio: 'inherit', // 親プロセスの標準入出力を共有
+        shell: true,      // OSのシェル経由で実行
+      });
+
+      server.on('close', (code) => {
+        if (code !== 0) {
+          console.error(`開発サーバーが異常終了しました。終了コード: ${code}`);
+        }
+      });
+      // ★ここまで追加
     },
     error: (error) => {
       console.error('CSVのパース中にエラーが発生しました:', error.message);
