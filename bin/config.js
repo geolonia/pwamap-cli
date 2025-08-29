@@ -4,7 +4,7 @@ const fs = require('fs');
 const YAML = require('yaml');
 const path = require('path');
 const Papa = require('papaparse');
-const { spawn } = require('child_process'); // ★ サーバー起動のために追加
+const { spawn } = require('child_process');
 
 // 引数を処理
 const args = process.argv.slice(2);
@@ -35,11 +35,11 @@ function processYamlConfig() {
   }
 }
 
-// 'start' コマンドが指定された場合の処理
-if (command === 'start') {
+// CSVを処理してJSONを生成する共通関数
+function processCsv(onComplete) {
   if (!csvFilePath) {
-    console.error('エラー: CSVファイルのパスを指定してください。');
-    console.error('使用法: pwamap-cli start <path/to/your.csv>');
+    console.error(`エラー: CSVファイルのパスを指定してください。`);
+    console.error(`使用法: pwamap-cli ${command} <path/to/your.csv>`);
     process.exit(1);
   }
 
@@ -60,28 +60,46 @@ if (command === 'start') {
       fs.writeFileSync(distJsonPath, JSON.stringify(results.data, null, 2));
       console.log(`✅ CSVをJSONに変換し、${distJsonPath} に保存しました。`);
       processYamlConfig(); // YAMLの処理も実行
-
-      // ★ここから追加：React開発サーバーを起動する
-      console.log('🚀 React開発サーバーを起動します...');
-      const server = spawn('npm', ['start'], {
-        stdio: 'inherit', // 親プロセスの標準入出力を共有
-        shell: true,      // OSのシェル経由で実行
-      });
-
-      server.on('close', (code) => {
-        if (code !== 0) {
-          console.error(`開発サーバーが異常終了しました。終了コード: ${code}`);
-        }
-      });
-      // ★ここまで追加
+      onComplete(); // コマンドごとの後続処理を実行
     },
     error: (error) => {
       console.error('CSVのパース中にエラーが発生しました:', error.message);
       process.exit(1);
     },
   });
+}
+
+// コマンドに応じて処理を分岐
+if (command === 'start') {
+  processCsv(() => {
+    console.log('🚀 React開発サーバーを起動します...');
+    const server = spawn('npm', ['start'], {
+      stdio: 'inherit',
+      shell: true,
+    });
+    server.on('close', (code) => {
+      if (code !== 0) {
+        console.error(`開発サーバーが異常終了しました。終了コード: ${code}`);
+      }
+    });
+  });
+} else if (command === 'build') {
+  processCsv(() => {
+    console.log('🚀 アプリケーションをビルドします...');
+    const builder = spawn('npm', ['run', 'build'], {
+      stdio: 'inherit',
+      shell: true,
+    });
+    builder.on('close', (code) => {
+      if (code === 0) {
+        console.log('✅ ビルドが正常に完了しました。');
+      } else {
+        console.error(`ビルドプロセスが異常終了しました。終了コード: ${code}`);
+      }
+    });
+  });
 } else {
-  // 'start' 以外、または引数がない場合はYAMLの処理のみ実行
+  // 'start', 'build' 以外、または引数がない場合はYAMLの処理のみ実行
   processYamlConfig();
   process.exit(0);
 }
