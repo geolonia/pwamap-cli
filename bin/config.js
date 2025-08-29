@@ -6,7 +6,6 @@ const path = require('path');
 const Papa = require('papaparse');
 const { spawn } = require('child_process');
 
-// (引数処理、YAML処理関数は変更なし)
 const args = process.argv.slice(2);
 const command = args[0];
 const csvFilePath = args[1];
@@ -28,7 +27,7 @@ function processYamlConfig() {
 
       fs.writeFileSync(distConfigFilePath, JSON.stringify(config, null, 2));
       fs.writeFileSync(path.join(process.cwd(), '.env'), envText);
-      console.log('✅ 設定ファイル (config.yml) を処理しました。');
+      console.log('設定ファイル (config.yml) を処理しました。');
     }
   }
 }
@@ -55,7 +54,7 @@ function processCsv(onComplete) {
     skipEmptyLines: true,
     complete: (results) => {
       fs.writeFileSync(distJsonPath, JSON.stringify(results.data, null, 2));
-      console.log(`✅ CSVをJSONに変換し、${distJsonPath} に保存しました。`);
+      console.log(`CSVをJSONに変換し、${distJsonPath} に保存しました。`);
       processYamlConfig();
       onComplete();
     },
@@ -69,7 +68,7 @@ function processCsv(onComplete) {
 // コマンドに応じて処理を分岐
 if (command === 'start') {
   processCsv(() => {
-    console.log('🚀 React開発サーバーを起動します...');
+    console.log('React開発サーバーを起動します...');
     const server = spawn('npm', ['start'], {
       cwd: path.join(__dirname, '..'), // スクリプトの実行場所をpwamap-cliのルートに指定
       stdio: 'inherit',
@@ -83,7 +82,7 @@ if (command === 'start') {
   });
 } else if (command === 'build') {
   processCsv(() => {
-    console.log('🚀 アプリケーションをビルドします...');
+    console.log('アプリケーションをビルドします...');
     const builder = spawn('npm', ['run', 'build'], {
       cwd: path.join(__dirname, '..'), // スクリプトの実行場所をpwamap-cliのルートに指定
       stdio: 'inherit',
@@ -91,7 +90,7 @@ if (command === 'start') {
     });
     builder.on('close', (code) => {
       if (code === 0) {
-        console.log('✅ ビルドが正常に完了しました。');
+        console.log('ビルドが正常に完了しました。');
       } else {
         console.error(`ビルドプロセスが異常終了しました。終了コード: ${code}`);
       }
