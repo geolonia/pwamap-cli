@@ -6,14 +6,12 @@ const path = require('path');
 const Papa = require('papaparse');
 const { spawn } = require('child_process');
 
-// 引数を処理
+// (引数処理、YAML処理関数は変更なし)
 const args = process.argv.slice(2);
 const command = args[0];
 const csvFilePath = args[1];
 
-// YAML設定の処理を関数化
 function processYamlConfig() {
-  // (この関数の中身は変更ありません)
   const srcConfigFilePath = path.join(process.cwd(), '/config.yml');
   const distConfigFilePath = path.join(process.cwd(), '/src/config.json');
 
@@ -35,7 +33,6 @@ function processYamlConfig() {
   }
 }
 
-// CSVを処理してJSONを生成する共通関数
 function processCsv(onComplete) {
   if (!csvFilePath) {
     console.error(`エラー: CSVファイルのパスを指定してください。`);
@@ -51,7 +48,7 @@ function processCsv(onComplete) {
   }
 
   const csvFile = fs.readFileSync(absoluteCsvPath, 'utf8');
-  const distJsonPath = path.join(process.cwd(), '/public/data.json');
+  const distJsonPath = path.join(__dirname, '../public/data.json');
 
   Papa.parse(csvFile, {
     header: true,
@@ -59,8 +56,8 @@ function processCsv(onComplete) {
     complete: (results) => {
       fs.writeFileSync(distJsonPath, JSON.stringify(results.data, null, 2));
       console.log(`✅ CSVをJSONに変換し、${distJsonPath} に保存しました。`);
-      processYamlConfig(); // YAMLの処理も実行
-      onComplete(); // コマンドごとの後続処理を実行
+      processYamlConfig();
+      onComplete();
     },
     error: (error) => {
       console.error('CSVのパース中にエラーが発生しました:', error.message);
@@ -74,6 +71,7 @@ if (command === 'start') {
   processCsv(() => {
     console.log('🚀 React開発サーバーを起動します...');
     const server = spawn('npm', ['start'], {
+      cwd: path.join(__dirname, '..'), // スクリプトの実行場所をpwamap-cliのルートに指定
       stdio: 'inherit',
       shell: true,
     });
@@ -87,6 +85,7 @@ if (command === 'start') {
   processCsv(() => {
     console.log('🚀 アプリケーションをビルドします...');
     const builder = spawn('npm', ['run', 'build'], {
+      cwd: path.join(__dirname, '..'), // スクリプトの実行場所をpwamap-cliのルートに指定
       stdio: 'inherit',
       shell: true,
     });
@@ -99,7 +98,6 @@ if (command === 'start') {
     });
   });
 } else {
-  // 'start', 'build' 以外、または引数がない場合はYAMLの処理のみ実行
   processYamlConfig();
   process.exit(0);
 }
