@@ -38,6 +38,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:assets": "pwa-asset-generator public/logo.svg ./public/ --index ./public/index.html --manifest ./public/manifest.json --favicon true",
+    "cli:build": "./bin/config.js build ./data.csv",
+    "cli:start": "./bin/config.js start ./data.csv",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

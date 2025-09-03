@@ -3,7 +3,6 @@
 const fs = require('fs');
 const YAML = require('yaml');
 const path = require('path');
-const Papa = require('papaparse');
 const { spawn } = require('child_process');
 
 const args = process.argv.slice(2);
@@ -47,22 +46,12 @@ function processCsv(onComplete) {
   }
 
   const csvFile = fs.readFileSync(absoluteCsvPath, 'utf8');
-  const distJsonPath = path.join(__dirname, '../public/data.json');
+  const distCsvPath = path.join(__dirname, '../public/data.csv');
 
-  Papa.parse(csvFile, {
-    header: true,
-    skipEmptyLines: true,
-    complete: (results) => {
-      fs.writeFileSync(distJsonPath, JSON.stringify(results.data, null, 2));
-      console.log(`CSVをJSONに変換し、${distJsonPath} に保存しました。`);
-      processYamlConfig();
-      onComplete();
-    },
-    error: (error) => {
-      console.error('CSVのパース中にエラーが発生しました:', error.message);
-      process.exit(1);
-    },
-  });
+  fs.writeFileSync(distCsvPath, csvFile);
+
+  console.log(`CSVファイルを読み込みました: ${absoluteCsvPath}`);
+  onComplete();
 }
 
 // コマンドに応じて処理を分岐

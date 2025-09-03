@@ -66,7 +66,7 @@ GitHub Pages の設定をし、 コミットするとデータが反映されま
 $ git clone git@github.com:geoloniamaps/pwa.git
 $ cd pwa
 $ npm install
-$ npm start
+$ npm run cli:start
 ```
 
 下の URL にアクセスして下さい。開発サーバーが立ち上がります。
