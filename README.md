@@ -18,8 +18,6 @@ https://github.com/geoloniamaps/pwamap
 ```
 title: Geolonia PWAマップ
 description: Google スプレッドシートを更新するだけでオリジナルの地図アプリを作成できる\n「Geolonia PWAマップ」
-data_url: https://docs.google.com/spreadsheets/d/1_m8s4P5tdSeam3nzC5ruSfuvtSejQKEX1FiBeOWJN3E/pub?gid=1957425126&single=true&output=csv
-form_url: ""
 logo_image_url: https://geoloniamaps.github.io/pwamap/icon-pwamap.svg
 background_image_url: https://geoloniamaps.github.io/pwamap/geolonia_bgimage_1920_1080.png
 primary_color: "#d2691e"
@@ -37,7 +35,7 @@ orderby: distance
 
 ## スポットデータについて
 
-スポットは CSV 以下の方法でスポットデータファイルを作成して、`config.yml` にその CSV までの URL を設定してください。  
+スポットは CSV 以下の方法でスポットデータファイルを作成して、`config.yml` にその CSV までの URL を設定してください。
 
 - `緯度`、`経度`、`スポット名`、`カテゴリ` のみが必須で、これらのどれか一つでも入力されていないとアプリ上には表示されません。
 - なお、データは AJAX で常時読み込んでいますので、CSV が編集されるとほぼ同時にアプリ側にも反映されると考えてください。（キャッシュで多少タイムラグがあります。）
@@ -57,7 +55,7 @@ Webへの公開設定で、「スポットデータ」シートを選択し、�
 
 <img width="80%" alt="" src="https://github.com/user-attachments/assets/7c437ceb-21a3-4f06-9abc-5f798c7ba44a">
 
-公開をクリックし、表示された URL を `config.yml` の `data_url` に指定して下さい。  
+公開をクリックし、表示された URL を `config.yml` の `data_url` に指定して下さい。
 GitHub Pages の設定をし、 コミットするとデータが反映されます。
 
 ## 開発
