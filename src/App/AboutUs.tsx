@@ -1,14 +1,6 @@
 import './AboutUs.scss'
-import config from '../config.json'
-import { FaPlus } from 'react-icons/fa';
 
 const Content = () => {
-  const clickHandler = () => {
-    if (config.form_url) {
-      window.location.href = config.form_url
-    }
-  }
-
 
   return (
     <div className="about-us">
@@ -29,16 +21,6 @@ const Content = () => {
         <h2>お問い合わせフォーム</h2>
         <p><a href="https://geolonia.com/contact/" target='_blank' rel="noreferrer">https://geolonia.com/contact/</a></p>
         <p>※カスタマイズおよびアプリの作成・利用についてはサポート対象外となります。あらかじめご了承ください。</p>
-
-        {config.form_url?
-          <>
-            <h2>データの更新について</h2>
-            <p>このアプリのデータを更新するには下の「 + 」ボタンを押してフォームに必要な情報を入力してください。</p>
-            <div className="goto-form"><button><FaPlus color="#FFFFFF" onClick={clickHandler} /></button></div>
-          </>
-          :
-          <></>
-        }
       </div>
     </div>
   );
