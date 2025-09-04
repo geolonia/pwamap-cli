@@ -72,14 +72,19 @@ if (command === 'start') {
 } else if (command === 'build') {
   processCsv(() => {
     console.log('アプリケーションをビルドします...');
+    const buildPath = path.join(process.cwd(), 'build');
     const builder = spawn('npm', ['run', 'build'], {
       cwd: path.join(__dirname, '..'), // スクリプトの実行場所をpwamap-cliのルートに指定
       stdio: 'inherit',
       shell: true,
+      env: {
+        ...process.env,
+        BUILD_PATH: buildPath
+      }
     });
     builder.on('close', (code) => {
       if (code === 0) {
-        console.log('ビルドが正常に完了しました。');
+        console.log(`ビルドが正常に完了しました。成果物は ${buildPath} に出力されました。`);
       } else {
         console.error(`ビルドプロセスが異常終了しました。終了コード: ${code}`);
       }
