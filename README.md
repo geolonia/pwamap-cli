@@ -1,79 +1,48 @@
-# Geolonia PWAマップ
+# PWAMAP-CLI
 
-## Geolonia PWAマップ について
+`PWAMAP-CLI` は、CSVデータソースからインタラクティブな PWA の地図アプリケーションを簡単に構築するためのコマンドラインツールです。
 
-Geolonia PWA は、GitHub と Google Sheets を使って、素早く PWA の地図アプリが作れるテンプレートです。
+このツールを使うことで、店舗リストや施設一覧などの位置情報を含んだCSVファイルから、インタラクティブな地図サイトを生成できます。
 
-## フォーク
+## 前提条件
 
-まず、以下のリポジトリをフォークしてください。
-https://github.com/geoloniamaps/pwamap
+- [Node.js](httpss://nodejs.org/) (v16以上を推奨)
+- [npm](https://www.npmjs.com/)
 
+## セットアップ
 
-## サイト全体の設定
+リポジトリをクローンし、依存関係をインストールします。
 
-`config.yml` を書き換えることでサイト全体の設定を変更できます。
-
-設定の例:
-```
-title: Geolonia PWAマップ
-description: Google スプレッドシートを更新するだけでオリジナルの地図アプリを作成できる\n「Geolonia PWAマップ」
-logo_image_url: https://geoloniamaps.github.io/pwamap/icon-pwamap.svg
-background_image_url: https://geoloniamaps.github.io/pwamap/geolonia_bgimage_1920_1080.png
-primary_color: "#d2691e"
-orderby: distance
+```bash
+git clone https://github.com/your-username/pwamap-cli.git
+cd pwamap-cli
+npm install
 ```
 
-- `title`: サイトのタイトルです。
-- `description`: サイトの概要文です。
-- `data_url`: アプリで読み込む CSV データまでの URL を記述してください。SSL は必須です。
-- `form_url`: データの追加/更新用の申請フォームの URL を記述してください。
-- `logo_image_url`: PCで表示した時のロゴ画像の URL を記述してください。
-- `background_image_url`: PCで表示した時の背景画像の URL を記述してください。
-- `primary_color`: サイトのテーマカラーを記述してください。（例: `#d2691e`）
-- `orderby`: 一覧ページのデータの並び順を指定します。`distance` で距離順に並び替えます。`time` で新着順に並び替えます。
+## CLIツールの使い方
 
-## スポットデータについて
+`pwamap-cli` は、CSVファイルを引数として実行します。
 
-スポットは CSV 以下の方法でスポットデータファイルを作成して、`config.yml` にその CSV までの URL を設定してください。
+### 開発サーバーの起動
 
-- `緯度`、`経度`、`スポット名`、`カテゴリ` のみが必須で、これらのどれか一つでも入力されていないとアプリ上には表示されません。
-- なお、データは AJAX で常時読み込んでいますので、CSV が編集されるとほぼ同時にアプリ側にも反映されると考えてください。（キャッシュで多少タイムラグがあります。）
+CSVファイルを指定して、開発用のローカルサーバーを起動します。ファイルの変更を監視し、自動でリロードされます。
 
-### Google スプレッドシートを使う方法
-以下のスプレッドシートをコピーしてください。
-
-https://docs.google.com/spreadsheets/d/1_m8s4P5tdSeam3nzC5ruSfuvtSejQKEX1FiBeOWJN3E/edit?usp=sharing
-
-次に共有設定を行ってください。
-
-<img width="80%" alt="" src="https://github.com/user-attachments/assets/8a2f5031-ae90-4dd4-a2f1-4c2a1db70f42">
-
-
-Webへの公開設定で、「スポットデータ」シートを選択し、「カンマ区切り（.csv）」を選択して公開して下さい。
-
-
-<img width="80%" alt="" src="https://github.com/user-attachments/assets/7c437ceb-21a3-4f06-9abc-5f798c7ba44a">
-
-公開をクリックし、表示された URL を `config.yml` の `data_url` に指定して下さい。
-GitHub Pages の設定をし、 コミットするとデータが反映されます。
-
-## 開発
-
-[Geolonia PWA マップ ユーザーマニュアル](https://blog.geolonia.com/2022/05/17/pwamap-manual-setup.html) の手順を実行、その後以下のコマンドを実行して下さい。
-
-```shell
-$ git clone git@github.com:geoloniamaps/pwa.git
-$ cd pwa
-$ npm install
-$ npm run cli:start
+```bash
+npm run start ./data.csv
 ```
 
-下の URL にアクセスして下さい。開発サーバーが立ち上がります。
+実行後、ターミナルに表示されるURL（通常は `http://localhost:3000`）にブラウザでアクセスしてください。
 
-`http://localhost:3000/#/`
+### 静的サイトのビルド
 
+CSVファイルを元に、本番デプロイ用の静的サイトを `build` ディレクトリに生成します。
 
-## 注意事項
-このプログラムは自由にカスタマイズ可能ですが、利用についてはサポート対象外となります。
+```bash
+npm run build ./data.csv
+```
 
+生成された `build` ディレクトリの中身を、任意のWebサーバーにアップロードして公開できます。
+
+## ライセンス
+
+このプロジェクトは [MIT License](LICENSE.txt) の下で公開されています。
