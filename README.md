@@ -14,12 +14,14 @@
 ### インストール
 
 ```bash
-npm install --save git+https://github.com/geolonia/pwamap-cli.git
+npm install git+https://github.com/geolonia/pwamap-cli.git
 ```
 
 #### 使い方
 
-package.json に以下のように指定して使用します。
+### NPM モジュール
+
+package.json内でプロジェクトに同梱する場合は以下のように指定して使用します。
 
 ```
 {
@@ -33,8 +35,13 @@ package.json に以下のように指定して使用します。
 }
 ```
 
+### CLI
 
-※ CLIとして使う場合は `npx git+https://github.com/geolonia/pwamap-cli.git start ./data.csv` のように実行してください。
+以下のように実行してください。
+```
+$ npx git+https://github.com/geolonia/pwamap-cli.git start ./data.csv
+```
+※ npm install -g のグローバルインストールはサポートしていません。
 
 ## 開発者向け
 
