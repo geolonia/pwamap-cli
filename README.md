@@ -6,7 +6,7 @@
 
 ## 前提条件
 
-- [Node.js](httpss://nodejs.org/) (v16以上を推奨)
+- [Node.js](httpss://nodejs.org/) (v22以上を推奨)
 - [npm](https://www.npmjs.com/)
 
 ## インストール
@@ -14,7 +14,7 @@
 ### グローバルインストール
 
 ```bash
-npm install -g pwamap-cli
+npm install -g git+https://github.com/geolonia/pwamap-cli.git
 ```
 
 #### 使い方
@@ -30,7 +30,7 @@ pwamap-cli build ./data.csv
 ### ローカルインストール
 
 ```bash
-npm install --save-dev pwamap-cli
+npm install --save-dev git+https://github.com/geolonia/pwamap-cli.git
 ```
 
 #### 使い方
@@ -59,20 +59,21 @@ npm install
 
 #### 開発サーバーの起動
 
-CSVファイルを指定して、開発用のローカルサーバーを起動します。ファイルの変更を監視し、自動でリロードされます。
+CSVファイルを指定して、開発用のローカルサーバーを起動します。
 
 ```bash
-npm run cli:start ./data.csv
+npm run cli:start
 ```
 
 実行後、ターミナルに表示されるURL（通常は `http://localhost:3000`）にブラウザでアクセスしてください。
+※現時点では `data.csv` の変更はウォッチしていないのでご注意ください。
 
 #### 静的サイトのビルド
 
 CSVファイルを元に、本番デプロイ用の静的サイトを `build` ディレクトリに生成します。
 
 ```bash
-npm run cli:build ./data.csv
+npm run cli:build
 ```
 
 生成された `build` ディレクトリの中身を、任意のWebサーバーにアップロードして公開できます。
