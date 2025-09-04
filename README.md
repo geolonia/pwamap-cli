@@ -11,26 +11,10 @@
 
 ## インストール
 
-### グローバルインストール
+### インストール
 
 ```bash
-npm install -g git+https://github.com/geolonia/pwamap-cli.git
-```
-
-#### 使い方
-
-```bash
-pwamap-cli start ./data.csv
-```
-
-```bash
-pwamap-cli build ./data.csv
-```
-
-### ローカルインストール
-
-```bash
-npm install --save-dev git+https://github.com/geolonia/pwamap-cli.git
+npm install --save git+https://github.com/geolonia/pwamap-cli.git
 ```
 
 #### 使い方
@@ -42,6 +26,9 @@ npx pwamap-cli start ./data.csv
 ```bash
 npx pwamap-cli build ./data.csv
 ```
+
+
+※ グローバルインストール時は `npx git+https://github.com/geolonia/pwamap-cli.git start ./data.csv` のように実行してください。
 
 ## 開発者向け
 
