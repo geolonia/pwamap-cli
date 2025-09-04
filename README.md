@@ -6,7 +6,7 @@
 
 ## 前提条件
 
-- [Node.js](httpss://nodejs.org/) (v16以上を推奨)
+- [Node.js](httpss://nodejs.org/) (v22以上を推奨)
 - [npm](https://www.npmjs.com/)
 
 ## セットアップ
