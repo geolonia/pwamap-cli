@@ -19,16 +19,22 @@ npm install --save git+https://github.com/geolonia/pwamap-cli.git
 
 #### 使い方
 
-```bash
-npx pwamap-cli start ./data.csv
+package.json に以下のように指定して使用します。
+
+```
+{
+  "scripts": {
+    "start": "pwamap-cli start ./data.csv",
+    "build": "pwamap-cli build ./data.csv"
+  },
+  "dependencies": {
+    "pwamap-cli":  "git+https://github.com/geolonia/pwamap-cli.git"
+  }
+}
 ```
 
-```bash
-npx pwamap-cli build ./data.csv
-```
 
-
-※ グローバルインストール時は `npx git+https://github.com/geolonia/pwamap-cli.git start ./data.csv` のように実行してください。
+※ CLIとして使う場合は `npx git+https://github.com/geolonia/pwamap-cli.git start ./data.csv` のように実行してください。
 
 ## 開発者向け
 
